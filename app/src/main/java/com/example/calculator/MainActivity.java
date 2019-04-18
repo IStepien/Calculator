@@ -18,11 +18,15 @@ public class MainActivity extends AppCompatActivity {
     private final char SUBTR = '-';
     private final char ADD = '+';
 
+
     private char CALC_SIGN;
 
-    private double firstValue;
-    private double secondValue ;
+    boolean calcSignAllowed = false;
 
+    private double firstValue;
+    private double secondValue;
+
+    private String error;
 
 
     @Override
@@ -34,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
         binding.buttonZero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.textViewResult.setText(binding.textViewResult.getText()+"0");
-                binding.textViewHistory.setText(binding.textViewHistory.getText()+"0");
+                binding.textViewResult.setText(binding.textViewResult.getText() + "0");
+                binding.textViewHistory.setText(binding.textViewHistory.getText() + "0");
+                calcSignAllowed = true;
+
 
             }
         });
@@ -45,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 binding.textViewResult.setText(binding.textViewResult.getText() + "1");
                 binding.textViewHistory.setText(binding.textViewHistory.getText() + "1");
+                calcSignAllowed = true;
+
             }
         });
 
@@ -53,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 binding.textViewResult.setText(binding.textViewResult.getText() + "2");
                 binding.textViewHistory.setText(binding.textViewHistory.getText() + "2");
+                calcSignAllowed = true;
+
             }
         });
 
@@ -61,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 binding.textViewResult.setText(binding.textViewResult.getText() + "3");
                 binding.textViewHistory.setText(binding.textViewHistory.getText() + "3");
+                calcSignAllowed = true;
+
 
             }
         });
@@ -69,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 binding.textViewResult.setText(binding.textViewResult.getText() + "4");
                 binding.textViewHistory.setText(binding.textViewHistory.getText() + "4");
+                calcSignAllowed = true;
+
 
             }
         });
@@ -77,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 binding.textViewResult.setText(binding.textViewResult.getText() + "5");
                 binding.textViewHistory.setText(binding.textViewHistory.getText() + "5");
+                calcSignAllowed = true;
+
             }
         });
         binding.button6.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 binding.textViewResult.setText(binding.textViewResult.getText() + "6");
                 binding.textViewHistory.setText(binding.textViewHistory.getText() + "6");
+                calcSignAllowed = true;
+
             }
         });
         binding.button7.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 binding.textViewResult.setText(binding.textViewResult.getText() + "7");
                 binding.textViewHistory.setText(binding.textViewHistory.getText() + "7");
+                calcSignAllowed = true;
+
             }
         });
         binding.button8.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 binding.textViewResult.setText(binding.textViewResult.getText() + "8");
                 binding.textViewHistory.setText(binding.textViewHistory.getText() + "8");
+                calcSignAllowed = true;
             }
         });
         binding.button9.setOnClickListener(new View.OnClickListener() {
@@ -106,62 +127,82 @@ public class MainActivity extends AppCompatActivity {
 
                 binding.textViewResult.setText(binding.textViewResult.getText() + "9");
                 binding.textViewHistory.setText(binding.textViewHistory.getText() + "9");
+                calcSignAllowed = true;
             }
         });
+
 
         binding.buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstValue = Double.valueOf(binding.textViewResult.getText().toString());
-
-                CALC_SIGN = ADD;
-                binding.textViewResult.setText(binding.textViewResult.getText() + "+");
-                binding.textViewHistory.setText(binding.textViewHistory.getText() + "+");
-                binding.textViewResult.setText(null);
+                if (calcSignAllowed == true) {
+                    firstValue = Double.valueOf(binding.textViewResult.getText().toString());
+                    CALC_SIGN = ADD;
+                    binding.textViewResult.setText(binding.textViewResult.getText() + "+");
+                    binding.textViewHistory.setText(binding.textViewHistory.getText() + "+");
+                    binding.textViewResult.setText(null);
+                    calcSignAllowed = false;
+                }
             }
         });
 
         binding.buttonDivid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstValue = Double.valueOf(binding.textViewResult.getText().toString());
-                CALC_SIGN = DIVIDE;
-                binding.textViewResult.setText(binding.textViewResult.getText() + "/");
-                binding.textViewHistory.setText(binding.textViewHistory.getText() + "/");
-                binding.textViewResult.setText(null);
+                if (calcSignAllowed == true) {
+                    firstValue = Double.valueOf(binding.textViewResult.getText().toString());
+                    CALC_SIGN = DIVIDE;
+                    binding.textViewResult.setText(binding.textViewResult.getText() + "/");
+                    binding.textViewHistory.setText(binding.textViewHistory.getText() + "/");
+                    binding.textViewResult.setText(null);
+                    calcSignAllowed = false;
+                }
             }
         });
         binding.buttonMultipl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstValue = Double.valueOf(binding.textViewResult.getText().toString());
-                CALC_SIGN = MULTIPLY;
-                binding.textViewResult.setText(binding.textViewResult.getText() + "*");
-                binding.textViewHistory.setText(binding.textViewHistory.getText() + "*");
-                binding.textViewResult.setText(null);
+                if (calcSignAllowed == true) {
+                    firstValue = Double.valueOf(binding.textViewResult.getText().toString());
+                    CALC_SIGN = MULTIPLY;
+                    binding.textViewResult.setText(binding.textViewResult.getText() + "*");
+                    binding.textViewHistory.setText(binding.textViewHistory.getText() + "*");
+                    binding.textViewResult.setText(null);
+                    calcSignAllowed = false;
+                }
             }
         });
         binding.buttonSubtr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                firstValue = Double.valueOf(binding.textViewResult.getText().toString());
-                CALC_SIGN = SUBTR;
-                binding.textViewResult.setText(binding.textViewResult.getText() + "-");
-                binding.textViewHistory.setText(binding.textViewHistory.getText() + "-");
-                binding.textViewResult.setText(null);
+                if (calcSignAllowed == true) {
+                    firstValue = Double.valueOf(binding.textViewResult.getText().toString());
+                    CALC_SIGN = SUBTR;
+                    binding.textViewResult.setText(binding.textViewResult.getText() + "-");
+                    binding.textViewHistory.setText(binding.textViewHistory.getText() + "-");
+                    binding.textViewResult.setText(null);
+                    calcSignAllowed = false;
+                } else {
+                    binding.textViewResult.setText("-");
+                    binding.textViewHistory.setText(binding.textViewHistory.getText() + "-");
+                    calcSignAllowed = false;
+                }
             }
-
         });
+
+
         binding.buttonDot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.textViewResult.setText(binding.textViewResult.getText()+".");
-                binding.textViewHistory.setText(binding.textViewHistory.getText()+".");
-
+                if (calcSignAllowed == true) {
+                    binding.textViewResult.setText(binding.textViewResult.getText() + ".");
+                    binding.textViewHistory.setText(binding.textViewHistory.getText() + ".");
+                    calcSignAllowed=false;
+                }
             }
         });
 
-      
+
         binding.buttonClearAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,8 +215,11 @@ public class MainActivity extends AppCompatActivity {
         binding.buttonEqual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calculate();
-            binding.textViewResult.setText(String.valueOf(firstValue));
+                if (calcSignAllowed == true) {
+                    calculate();
+                    binding.textViewResult.setText(String.valueOf(firstValue));
+                    CALC_SIGN = ' ';
+                }
             }
         });
 
@@ -185,22 +229,23 @@ public class MainActivity extends AppCompatActivity {
     private void calculate() {
         secondValue = Double.valueOf(binding.textViewResult.getText().toString());
 
-        switch(CALC_SIGN){
-            case(ADD):
-            this.firstValue = firstValue+secondValue;
-            break;
-            case(DIVIDE):
-            this.firstValue = firstValue/secondValue;
-            break;
-            case(SUBTR):
-            this.firstValue = firstValue-secondValue;
-            break;
-            case(MULTIPLY):
-            this.firstValue = firstValue*secondValue;
-            break;
+        switch (CALC_SIGN) {
+            case (ADD):
+                this.firstValue = firstValue + secondValue;
+                break;
+            case (DIVIDE):
+                this.firstValue = firstValue / secondValue;
+                break;
+            case (SUBTR):
+                this.firstValue = firstValue - secondValue;
+                break;
+            case (MULTIPLY):
+                this.firstValue = firstValue * secondValue;
+                break;
         }
 
 
     }
+
 
 }
