@@ -210,11 +210,12 @@ public class MainActivity extends AppCompatActivity {
         binding.buttonDot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (calcSignAllowed == true) {
+                if (calcSignAllowed == true && !binding.textViewResult.getText().toString().contains(".")) {
                     binding.textViewResult.setText(binding.textViewResult.getText() + ".");
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + ".");
                     calcSignAllowed = false;
                     dotAllowed = false;
+
                 }
             }
         });
@@ -255,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
         secondValue = Double.valueOf(binding.textViewResult.getText().toString());
 
-        
+
         switch (CALC_SIGN) {
             case (ADD):
                 this.firstValue = firstValue + secondValue;
@@ -280,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
 
 }
