@@ -4,14 +4,19 @@ package com.example.calculator;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.calculator.databinding.MainActivityBinding;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+
+import com.example.calculator.databinding.MainActivityBinding;
+
+import java.text.DecimalFormat;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private MainActivityBinding binding;
+
+    private DecimalFormat decimalFormat;
 
     private final char MULTIPLY = '*';
     private final char DIVIDE = '/';
@@ -25,14 +30,19 @@ public class MainActivity extends AppCompatActivity {
     private boolean calcSignAllowed;
     private boolean dotAllowed;
     private boolean isNegative;
+    private boolean enableButton = true;
 
-    private double firstValue;
-    private double secondValue;
+
+    private Double firstValue;
+    private Double secondValue;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        decimalFormat = new DecimalFormat("#.##########");
+
         binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
 
 
@@ -136,60 +146,62 @@ public class MainActivity extends AppCompatActivity {
         binding.buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (calcSignAllowed == true) {
+                if (calcSignAllowed  && enableButton ) {
                     firstValue = Double.valueOf(binding.textViewResult.getText().toString());
                     CALC_SIGN = ADD;
-                    binding.textViewResult.setText(binding.textViewResult.getText() + "+");
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + "+");
                     binding.textViewResult.setText(null);
                     calcSignAllowed = false;
-                    isNegative=false;
+                    isNegative = false;
+                    enableButton = false;
                 }
             }
+
+
         });
 
         binding.buttonDivid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (calcSignAllowed == true) {
+                if (calcSignAllowed && enableButton ) {
                     firstValue = Double.valueOf(binding.textViewResult.getText().toString());
                     CALC_SIGN = DIVIDE;
-                    binding.textViewResult.setText(binding.textViewResult.getText() + "/");
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + "/");
                     binding.textViewResult.setText(null);
                     calcSignAllowed = false;
-                    isNegative=false;
+                    isNegative = false;
+                    enableButton= false;
                 }
             }
         });
         binding.buttonMultipl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (calcSignAllowed == true) {
+                if (calcSignAllowed && enableButton) {
                     firstValue = Double.valueOf(binding.textViewResult.getText().toString());
                     CALC_SIGN = MULTIPLY;
-                    binding.textViewResult.setText(binding.textViewResult.getText() + "*");
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + "*");
                     binding.textViewResult.setText(null);
                     calcSignAllowed = false;
-                    isNegative=false;
+                    isNegative = false;
+                    enableButton = false;
                 }
             }
         });
         binding.buttonSubtr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (calcSignAllowed == true) {
+                if (calcSignAllowed && enableButton ) {
                     firstValue = Double.valueOf(binding.textViewResult.getText().toString());
                     CALC_SIGN = SUBTR;
-                    binding.textViewResult.setText(binding.textViewResult.getText() + "-");
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + "-");
                     binding.textViewResult.setText(null);
                     calcSignAllowed = false;
-                } else if (isNegative==false) {
+                    enableButton=false;
+                } else if (isNegative == false && enableButton) {
                     binding.textViewResult.setText("-");
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + "-");
-                    isNegative=true;
+                    isNegative = true;
                 }
             }
         });
@@ -213,11 +225,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 binding.textViewResult.setText(null);
                 binding.textViewHistory.setText(null);
-                CALC_SIGN=' ';
-                firstValue=0;
-                secondValue=0;
-                isNegative=false;
-                calcSignAllowed=false;
+                CALC_SIGN = ' ';
+                firstValue = null;
+                secondValue = null;
+                isNegative = false;
+                calcSignAllowed = false;
+                enableButton=true;
+
 
             }
         });
@@ -229,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                 if (calcSignAllowed == true) {
                     calculate();
                     CALC_SIGN = ' ';
-                    binding.textViewResult.setText(String.valueOf(firstValue));
+                    binding.textViewResult.setText(decimalFormat.format(firstValue));
                 }
             }
         });
@@ -238,8 +252,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void calculate() {
+
         secondValue = Double.valueOf(binding.textViewResult.getText().toString());
 
+        
         switch (CALC_SIGN) {
             case (ADD):
                 this.firstValue = firstValue + secondValue;
@@ -253,13 +269,14 @@ public class MainActivity extends AppCompatActivity {
             case (MULTIPLY):
                 this.firstValue = firstValue * secondValue;
                 break;
-            default:
-                this.firstValue = firstValue;
 
         }
-        if(firstValue==Double.NaN){
+        if (firstValue == Double.NaN) {
             binding.textViewResult.setText("Not allowed");
         }
+
+        enableButton = true;
+
 
 
     }
