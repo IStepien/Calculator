@@ -21,12 +21,13 @@ public class MainActivity extends AppCompatActivity {
 
     private char CALC_SIGN;
 
-    boolean calcSignAllowed = false;
+
+    private boolean calcSignAllowed;
+    private boolean dotAllowed;
+    private boolean isNegative;
 
     private double firstValue;
     private double secondValue;
-
-    private String error;
 
 
     @Override
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + "+");
                     binding.textViewResult.setText(null);
                     calcSignAllowed = false;
+                    isNegative=false;
                 }
             }
         });
@@ -156,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + "/");
                     binding.textViewResult.setText(null);
                     calcSignAllowed = false;
+                    isNegative=false;
                 }
             }
         });
@@ -169,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + "*");
                     binding.textViewResult.setText(null);
                     calcSignAllowed = false;
+                    isNegative=false;
                 }
             }
         });
@@ -182,10 +186,10 @@ public class MainActivity extends AppCompatActivity {
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + "-");
                     binding.textViewResult.setText(null);
                     calcSignAllowed = false;
-                } else {
+                } else if (isNegative==false) {
                     binding.textViewResult.setText("-");
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + "-");
-                    calcSignAllowed = false;
+                    isNegative=true;
                 }
             }
         });
@@ -197,7 +201,8 @@ public class MainActivity extends AppCompatActivity {
                 if (calcSignAllowed == true) {
                     binding.textViewResult.setText(binding.textViewResult.getText() + ".");
                     binding.textViewHistory.setText(binding.textViewHistory.getText() + ".");
-                    calcSignAllowed=false;
+                    calcSignAllowed = false;
+                    dotAllowed = false;
                 }
             }
         });
@@ -208,6 +213,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 binding.textViewResult.setText(null);
                 binding.textViewHistory.setText(null);
+                CALC_SIGN=' ';
+                firstValue=0;
+                secondValue=0;
+                isNegative=false;
+                calcSignAllowed=false;
+
             }
         });
 
@@ -217,8 +228,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (calcSignAllowed == true) {
                     calculate();
-                    binding.textViewResult.setText(String.valueOf(firstValue));
                     CALC_SIGN = ' ';
+                    binding.textViewResult.setText(String.valueOf(firstValue));
                 }
             }
         });
@@ -242,6 +253,12 @@ public class MainActivity extends AppCompatActivity {
             case (MULTIPLY):
                 this.firstValue = firstValue * secondValue;
                 break;
+            default:
+                this.firstValue = firstValue;
+
+        }
+        if(firstValue==Double.NaN){
+            binding.textViewResult.setText("Not allowed");
         }
 
 
